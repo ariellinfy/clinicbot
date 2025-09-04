@@ -1,10 +1,10 @@
 
 import re
 from typing import Tuple, List
-import logging
 import hanzidentifier
+from ..utils.logging import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class PIIRedactor:
     def __init__(self):

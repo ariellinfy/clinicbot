@@ -170,8 +170,7 @@ with st.sidebar:
         - For health concerns, consult qualified professionals  
         - In emergencies, call local emergency services  
         - **No PII stored**
-    """
-    )
+    """)
     
 # ---- Chat thread ----
 def render_message(message):

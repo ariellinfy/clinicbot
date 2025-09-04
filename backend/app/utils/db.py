@@ -1,4 +1,3 @@
-
 import os
 from urllib.parse import urlparse
 from sqlalchemy import create_engine, text as sql_text
@@ -54,6 +53,11 @@ def expand_query_for_clinic(q: str) -> str:
     # Consultation synonyms (EN)
     if any(x in q_lower for x in ["consult", "initial", "first visit", "assessment"]):
         expansions += ["consultation", "initial consultation", "first visit", "assessment"]
+    if any(x in q_lower for x in [
+        "billing","direct billing","direct-billing","insurance","insurer","benefits","claim","claims",
+        "coverage","plan","pay direct","submit claim","third-party"
+    ]):
+        expansions += ["billing","direct billing","insurance","benefits","claim","coverage","plan"]
     # Chinese hints
     zh_terms = ["費用", "價錢", "收費", "多少錢", "幾錢", "諮詢", "初診", "首次就診", "評估"]
     if any(x in q for x in zh_terms):
@@ -79,3 +83,12 @@ def direct_sql_pricing_consultation(raw_q: str):
     )
     rows = fetch_rows(sql)
     return rows, sql
+
+def get_schema_string() -> str:
+    """Returns a string representation of the database schema."""
+    schema_str = "\n"
+    for table in metadata.tables.values():
+        schema_str += f"Table \"{table.name}\" has columns: "
+        schema_str += ", ".join([f"{c.name} ({c.type})" for c in table.columns])
+        schema_str += ".\n"
+    return schema_str

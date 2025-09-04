@@ -1,5 +1,4 @@
-
-from sqlalchemy import MetaData, Table, Column, String, Integer, ForeignKey
+from sqlalchemy import MetaData, Table, Column, String, Integer, ForeignKey, Text
 
 metadata = MetaData()
 
@@ -104,6 +103,8 @@ faqs = Table(
     Column("id", String, primary_key=True),
     Column("category", String),
     Column("question", String),
+    Column("answer", Text),
+    Column("answer_zh", Text),
     Column("keywords", String),
     Column("updatedAt", String),
 )
