@@ -1,0 +1,59 @@
+{
+  "schema": "team_members",
+  "data": [
+    {
+      "id": "practitioner-12345",
+      "type": "Practitioner",
+      "janeAppId": 12345,
+      "firstName": "Ming",
+      "lastName": "Chen",
+      "fullName": "Ming Chen",
+      "prefix": "Dr.",
+      "title": "Registered Acupuncturist",
+      "briefBio": "Holistic approach to pain management and stress relief.",
+      "briefBio_zh": "整体方法用于疼痛管理和压力缓解。",
+      "bio": "Dr. Chen has 10+ years of clinical experience blending traditional methods with evidence-based care.",
+      "bio_zh": "陈医生拥有超过10年的临床经验，结合传统方法与循证护理。",
+      "specialties": ["Acupuncture", "Herbal Medicine"],
+      "languages": ["English", "Mandarin"],
+      "servicesOffered": ["service-acupuncture"],
+      "updatedAt": "2025-08-30"
+    },
+    {
+      "id": "practitioner-23456",
+      "type": "Practitioner",
+      "janeAppId": 23456,
+      "firstName": "Yuki",
+      "lastName": "Wong",
+      "fullName": "Yuki Wong",
+      "prefix": null,
+      "title": "Massage Therapist",
+      "briefBio": "Therapeutic massage focused on mobility and recovery.",
+      "briefBio_zh": "专注于活动能力和恢复的治疗性按摩。",
+      "bio": "Yuki specializes in sports massage, deep tissue, and prenatal care.",
+      "bio_zh": "Yuki专精于运动按摩、深层组织按摩和孕期护理。",
+      "specialties": ["Pain Management", "Fertility"],
+      "languages": ["English", "Cantonese", "Mandarin"],
+      "servicesOffered": ["service-massage"],
+      "updatedAt": "2025-08-30"
+    },
+    {
+      "id": "practitioner-34567",
+      "type": "Practitioner",
+      "janeAppId": 34567,
+      "firstName": "Lila",
+      "lastName": "Patel",
+      "fullName": "Lila Patel",
+      "prefix": "Dr.",
+      "title": "Naturopathic Doctor",
+      "briefBio": "Personalized natural therapies for wellness.",
+      "briefBio_zh": "个性化的自然疗法促进健康。",
+      "bio": "Dr. Patel focuses on nutrition, lifestyle changes, and herbal remedies to support chronic conditions.",
+      "bio_zh": "帕特尔医生专注于营养、生活方式改变和草药疗法以支持慢性疾病。",
+      "specialties": ["Naturopathy", "Nutrition"],
+      "languages": ["English", "Hindi"],
+      "servicesOffered": ["service-naturopathy"],
+      "updatedAt": "2025-08-30"
+    }
+  ]
+}

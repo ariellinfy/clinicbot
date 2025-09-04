@@ -1,0 +1,50 @@
+{
+  "schema": "faqs",
+  "data": [
+    {
+      "id": "faq-visit-1",
+      "category": "Your Visit",
+      "question": "What should I bring to my first appointment?",
+      "answer": "Please bring your ID, any relevant medical reports, and your benefits card if applicable.",
+      "answer_zh": "请携带您的身份证、相关医疗报告以及适用的保险卡。",
+      "keywords": ["first appointment", "documents"],
+      "updatedAt": "2025-08-30"
+    },
+    {
+      "id": "faq-visit-2",
+      "category": "Your Visit",
+      "question": "Do you offer direct billing?",
+      "answer": "Yes, we offer direct billing for most major insurers. Please check with reception.",
+      "answer_zh": "是的，我们为大多数主要保险公司提供直接账单服务。请向接待处确认。",
+      "keywords": ["billing", "insurance"],
+      "updatedAt": "2025-08-30"
+    },
+    {
+      "id": "faq-insurance-1",
+      "category": "Insurance & Billing",
+      "question": "What is your cancellation policy?",
+      "answer": "We require 24 hours’ notice to cancel or reschedule without a fee.",
+      "answer_zh": "我们要求提前24小时通知取消或重新安排，否则将收取费用。",
+      "keywords": ["cancellation", "policy"],
+      "updatedAt": "2025-08-30"
+    },
+    {
+      "id": "faq-services-1",
+      "category": "Services",
+      "question": "Is acupuncture safe for pregnant women?",
+      "answer": "Acupuncture is generally safe during pregnancy when performed by a trained practitioner. Consult with your provider first.",
+      "answer_zh": "由训练有素的从业者进行的针灸在怀孕期间通常是安全的。请先咨询您的医疗提供者。",
+      "keywords": ["acupuncture", "pregnancy"],
+      "updatedAt": "2025-08-30"
+    },
+    {
+      "id": "faq-services-2",
+      "category": "Services",
+      "question": "What conditions can naturopathy help with?",
+      "answer": "Naturopathy can support chronic conditions like fatigue, digestive issues, and stress through natural therapies.",
+      "answer_zh": "自然疗法可以通过自然疗法支持慢性疾病，如疲劳、消化问题和压力。",
+      "keywords": ["naturopathy", "chronic conditions"],
+      "updatedAt": "2025-08-30"
+    }
+  ]
+}

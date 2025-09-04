@@ -1,0 +1,41 @@
+{
+  "schema": "services",
+  "data": [
+    {
+      "id": "service-acupuncture",
+      "name": "Acupuncture",
+      "subtitle": "Balance and pain relief",
+      "subtitle_zh": "平衡与疼痛缓解",
+      "shortDescription": "Evidence-informed treatment to relieve pain and improve overall well-being.",
+      "shortDescription_zh": "循证治疗以缓解疼痛并改善整体健康。",
+      "longDescription": "Acupuncture uses fine needles at specific points to encourage healing. Common concerns: back pain, headaches, stress, insomnia.",
+      "longDescription_zh": "针灸使用细针在特定穴位上促进愈合。常见问题：背痛、头痛、压力、失眠。",
+      "relatedSpecialties": ["Pain Management", "Herbal Medicine"],
+      "updatedAt": "2025-08-30"
+    },
+    {
+      "id": "service-massage",
+      "name": "Massage Therapy",
+      "subtitle": "Restore mobility and relax",
+      "subtitle_zh": "恢复活动能力与放松",
+      "shortDescription": "Therapeutic and relaxation techniques tailored to your goals.",
+      "shortDescription_zh": "根据您的目标定制的治疗和放松技术。",
+      "longDescription": "Techniques include deep tissue, sports, and prenatal massage. Benefits may include reduced muscle tension and better sleep.",
+      "longDescription_zh": "技术包括深层组织按摩、运动按摩和孕期按摩。益处包括减少肌肉紧张和改善睡眠。",
+      "relatedSpecialties": ["Pain Management", "Fertility"],
+      "updatedAt": "2025-08-30"
+    },
+    {
+      "id": "service-naturopathy",
+      "name": "Naturopathy",
+      "subtitle": "Holistic health solutions",
+      "subtitle_zh": "整体健康解决方案",
+      "shortDescription": "Natural therapies to support chronic conditions and wellness.",
+      "shortDescription_zh": "自然疗法支持慢性疾病和健康。",
+      "longDescription": "Naturopathy combines nutrition, herbal remedies, and lifestyle changes to promote long-term health.",
+      "longDescription_zh": "自然疗法结合营养、草药疗法和生活方式改变，促进长期健康。",
+      "relatedSpecialties": ["Nutrition", "Chronic Care"],
+      "updatedAt": "2025-08-30"
+    }
+  ]
+}

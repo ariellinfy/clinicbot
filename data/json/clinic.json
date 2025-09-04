@@ -1,0 +1,34 @@
+{
+  "schema": "clinic_info",
+  "data": {
+    "id": "clinic-001",
+    "name": "Harmony TCM Clinic",
+    "tagline": "Your path to holistic wellness",
+    "tagline_zh": "您的整体健康之路",
+    "address": {
+      "street": "123 Main St",
+      "city": "Calgary",
+      "province": "Alberta",
+      "postalCode": "T2X 1A1",
+      "country": "Canada"
+    },
+    "phone": "+1 (555) 123-4567",
+    "email": "hello@harmonytcm.example",
+    "hours": [
+      { "day": "Monday", "open": "09:00", "close": "17:00" },
+      { "day": "Tuesday", "open": "09:00", "close": "17:00" },
+      { "day": "Wednesday", "open": "09:00", "close": "17:00" },
+      { "day": "Thursday", "open": "10:00", "close": "19:00" },
+      { "day": "Friday", "open": "09:00", "close": "17:00" },
+      { "day": "Saturday", "open": "10:00", "close": "14:00" },
+      { "day": "Sunday", "open": "Closed", "close": "Closed" }
+    ],
+    "booking_link": "https://demo.janeapp.com",
+    "languages": ["English", "Mandarin", "Cantonese"],
+    "social_media": {
+      "facebook": "https://facebook.com/harmonytcm",
+      "instagram": "https://instagram.com/harmonytcm"
+    },
+    "updatedAt": "2025-08-30"
+  }
+}

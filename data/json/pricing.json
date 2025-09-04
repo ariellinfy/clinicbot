@@ -1,0 +1,65 @@
+{
+  "schema": "pricing",
+  "data": [
+    {
+      "id": "price-acu-initial",
+      "category": "Acupuncture",
+      "type": "initial",
+      "item": "Initial Consultation (60 min)",
+      "price": 120,
+      "max": null,
+      "serviceId": "service-acupuncture",
+      "updatedAt": "2025-08-30"
+    },
+    {
+      "id": "price-acu-followup",
+      "category": "Acupuncture",
+      "type": "follow-up",
+      "item": "Follow-up Treatment (45 min)",
+      "price": 90,
+      "max": null,
+      "serviceId": "service-acupuncture",
+      "updatedAt": "2025-08-30"
+    },
+    {
+      "id": "price-massage-60",
+      "category": "Massage Therapy",
+      "type": "initial",
+      "item": "Therapeutic Massage (60 min)",
+      "price": 95,
+      "max": 120,
+      "serviceId": "service-massage",
+      "updatedAt": "2025-08-30"
+    },
+    {
+      "id": "price-massage-90",
+      "category": "Massage Therapy",
+      "type": "follow-up",
+      "item": "Therapeutic Massage (90 min)",
+      "price": 140,
+      "max": null,
+      "serviceId": "service-massage",
+      "updatedAt": "2025-08-30"
+    },
+    {
+      "id": "price-naturo-initial",
+      "category": "Naturopathy",
+      "type": "initial",
+      "item": "Naturopathic Consultation (75 min)",
+      "price": 150,
+      "max": null,
+      "serviceId": "service-naturopathy",
+      "updatedAt": "2025-08-30"
+    },
+    {
+      "id": "price-naturo-followup",
+      "category": "Naturopathy",
+      "type": "follow-up",
+      "item": "Follow-up Session (45 min)",
+      "price": 100,
+      "max": null,
+      "serviceId": "service-naturopathy",
+      "updatedAt": "2025-08-30"
+    }
+  ]
+}
