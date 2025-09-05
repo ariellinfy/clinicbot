@@ -155,6 +155,7 @@ ROUTER_PROMPT = ChatPromptTemplate.from_template(
         You are a router for a clinic Q&A system.
         Return route: "sql" (structured facts), "docs" (policies/notes), or "both".
         If the question asks about price/cost/fee (EN or ZH), address/phone/email/hours/directions, prefer "sql".
+        If the question asks about practitioner bio, service description, faqs, prefer "both"
         Also return a confidence 0-1.
         Question: {question}
         Respond as JSON: {{ "route": "...", "confidence": 0.0 }}
