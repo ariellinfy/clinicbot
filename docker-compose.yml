@@ -19,8 +19,6 @@ services:
       - .env
     environment:
       DATA_DIR: /app/data/json
-      # CHROMA_DIR: /app/data/chroma_db
-      # SQLITE_URL: sqlite:////app/data/clinic.db
       ALLOW_ORIGINS: "*"
       JANEAPP_BASE: "https://demo.janeapp.com"
       CHROMA_HOST: chroma
@@ -43,7 +41,7 @@ services:
     ports:
       - "8501:8501"
     volumes:
-      - ./frontend:/app/frontend
+      - ./frontend:/app
 
 volumes:
   chroma_data:
