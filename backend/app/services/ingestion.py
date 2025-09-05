@@ -1,5 +1,6 @@
+# backend/app/services/ingestion.py
 import os, json
-from typing import Any, Iterable, Tuple
+from typing import Any, Dict
 from sqlalchemy.engine import Engine
 
 from .ingestion_modules.clinic import ingest_clinic_info
@@ -11,25 +12,27 @@ from ..utils.logging import get_logger
 
 logger = get_logger(__name__)
 
-def load_json_files(dir_path: str) -> Iterable[Tuple[str, Any]]:
+def load_json_files(dir_path: str) -> Dict[str, Any]:
+    files: Dict[str, Any] = {}
     if not os.path.isdir(dir_path):
-        return []
+        return files
     for fname in os.listdir(dir_path):
         if fname.lower().endswith(".json"):
             path = os.path.join(dir_path, fname)
             try:
                 with open(path, "r", encoding="utf-8") as f:
-                    yield fname, json.load(f)
+                    files[fname] = json.load(f)
             except Exception as e:
-                logger.warning(f"[WARN] Skipping {fname}: {e}")
+                logger.warning("[WARN] Skipping %s: %s", fname, e)
+    return files
 
-HANDLERS = {
-    "clinic_info": ingest_clinic_info,
-    "team_members": ingest_team_members,
-    "services": ingest_services,
-    "pricing": ingest_pricing,
-    "faqs": ingest_faqs,
-}
+INGEST_SEQUENCE = [
+    ("clinic.json", ingest_clinic_info),   # independent
+    ("services.json", ingest_services),    # parents
+    ("team_members.json", ingest_team_members),  # may reference services
+    ("pricing.json", ingest_pricing),      # references services
+    ("faqs.json", ingest_faqs),            # independent
+]
 
 def infer_schema_from_payload(payload: Any) -> str:
     if isinstance(payload, dict) and "schema" in payload:
@@ -52,14 +55,25 @@ def infer_schema_from_payload(payload: Any) -> str:
 def ingest_directory(engine: Engine, dir_path: str) -> int:
     from ..utils.db import ensure_tables
     ensure_tables(engine)
-    count = 0
-    with engine.begin() as conn:
-        for fname, payload in load_json_files(dir_path):
-            try:
-                schema = infer_schema_from_payload(payload)
-                handler = HANDLERS[schema]
+
+    files = load_json_files(dir_path)
+    if not files:
+        return 0
+    
+    lc_index = {name.lower(): name for name in files.keys()}
+    success_count = 0
+
+    for wanted_name, handler in INGEST_SEQUENCE:
+        key = wanted_name.lower()
+        if key not in lc_index:
+            continue
+        fname = lc_index[key]
+        payload = files[fname]
+
+        try:
+            with engine.begin() as conn:
                 handler(conn, payload)
-                count += 1
-            except Exception as e:
-                logger.error(f"{fname}: {e}", exc_info=True)
-    return count
+            success_count += 1
+        except Exception as e:
+            logger.error(f"{fname}: {e}", exc_info=True)
+    return success_count

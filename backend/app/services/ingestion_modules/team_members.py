@@ -1,7 +1,8 @@
+# backend/app/services/ingestion_modules/team_members.py
 from datetime import datetime
 from typing import Any, Dict
 
-from .utils import chroma_upsert, delete_children, to_list, upsert
+from .utils import chroma_upsert, delete_children, iso_now, to_list, to_uuid, upsert
 from ...models.schema import (team_members, team_specialties, team_languages, team_services)
 
 def ingest_team_members(conn, payload: Dict[str, Any]):
@@ -9,7 +10,7 @@ def ingest_team_members(conn, payload: Dict[str, Any]):
     docs = []
     for p in items:
         row = {
-            "id": p["id"],
+            "id": to_uuid(p["id"], "practitioner"),
             "type": p.get("type"),
             "janeAppId": p.get("janeAppId"),
             "firstName": p.get("firstName"),
@@ -17,18 +18,20 @@ def ingest_team_members(conn, payload: Dict[str, Any]):
             "fullName": p.get("fullName"),
             "prefix": p.get("prefix"),
             "title": p.get("title"),
-            "updatedAt": p.get("updatedAt") or datetime.utcnow().isoformat(),
+            "updatedAt": p.get("updatedAt") or iso_now(),
         }
         upsert(conn, team_members, row, pk="id")
-        delete_children(conn, team_specialties, "practitioner_id", p["id"])
+
+        pr_uuid = row["id"]
+        delete_children(conn, team_specialties, "practitioner_id", pr_uuid)
         for s in to_list(p.get("specialties")):
-            conn.execute(team_specialties.insert().values(practitioner_id=p["id"], specialty=s))
-        delete_children(conn, team_languages, "practitioner_id", p["id"])
+            conn.execute(team_specialties.insert().values(practitioner_id=pr_uuid, specialty=s))
+        delete_children(conn, team_languages, "practitioner_id", pr_uuid)
         for l in to_list(p.get("languages")):
-            conn.execute(team_languages.insert().values(practitioner_id=p["id"], language=l))
-        delete_children(conn, team_services, "practitioner_id", p["id"])
+            conn.execute(team_languages.insert().values(practitioner_id=pr_uuid, language=l))
+        delete_children(conn, team_services, "practitioner_id", pr_uuid)
         for svc in to_list(p.get("servicesOffered")):
-            conn.execute(team_services.insert().values(practitioner_id=p["id"], service_id=svc))
+            conn.execute(team_services.insert().values(practitioner_id=pr_uuid, service_id=to_uuid(svc, "service")))
         text = "\\n".join([
             f"Practitioner: {p.get('fullName') or ((p.get('firstName') or '') + ' ' + (p.get('lastName') or '')).strip()}",
             f"Title: {p.get('title')}",

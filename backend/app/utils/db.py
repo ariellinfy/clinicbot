@@ -1,3 +1,4 @@
+# backend/app/utils/db.py
 import os
 from urllib.parse import urlparse
 from sqlalchemy import create_engine, text as sql_text

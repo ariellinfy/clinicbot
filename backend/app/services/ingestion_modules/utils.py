@@ -1,5 +1,7 @@
-
+# backend/app/services/ingestion_modules/utils.py
 from typing import Any, Dict, Tuple, List
+from uuid import UUID, uuid5, NAMESPACE_DNS
+from datetime import datetime, timezone
 from sqlalchemy import Table, insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 from sqlalchemy.dialects.postgresql import insert as pg_insert
@@ -56,3 +58,16 @@ def chroma_upsert(docs: List[Tuple[str, str, Dict[str, Any]]]):
 def _zh_day_name(en_day: str) -> str:
     mapping = {"Monday":"星期一","Tuesday":"星期二","Wednesday":"星期三","Thursday":"星期四","Friday":"星期五","Saturday":"星期六","Sunday":"星期日"}
     return mapping.get(en_day, en_day)
+
+def to_uuid(value: str | None, salt: str) -> UUID | None:
+    if value is None:
+        return None
+    # already a UUID? return it
+    try:
+        return UUID(str(value))
+    except Exception:
+        # deterministically derive a UUID from the external string id
+        return uuid5(NAMESPACE_DNS, f"{salt}:{value}")
+
+def iso_now():
+    return datetime.now(timezone.utc).isoformat()

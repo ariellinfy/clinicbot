@@ -1,7 +1,8 @@
+# backend/app/services/ingestion_modules/clinic.py
 from datetime import datetime
 from typing import Any, Dict
 
-from .utils import _zh_day_name, chroma_upsert, delete_children, to_list, upsert
+from .utils import _zh_day_name, chroma_upsert, delete_children, iso_now, to_list, to_uuid, upsert
 from ...models.schema import (clinic_info, clinic_hours, clinic_languages, clinic_socials)
 from ...utils.vectorstore import get_store
 
@@ -9,7 +10,7 @@ def ingest_clinic_info(conn, payload: Dict[str, Any]):
     data = payload["data"] if "data" in payload else payload
     addr = data.get("address") or {}
     row = {
-        "id": data["id"],
+        "id": to_uuid(data["id"], "clinic"),
         "name": data.get("name"),
         "tagline": data.get("tagline"),
         "tagline_zh": data.get("tagline_zh"),
@@ -21,20 +22,22 @@ def ingest_clinic_info(conn, payload: Dict[str, Any]):
         "phone": data.get("phone"),
         "email": data.get("email"),
         "booking_link": data.get("booking_link"),
-        "updatedAt": data.get("updatedAt") or datetime.utcnow().isoformat(),
+        "updatedAt": data.get("updatedAt") or iso_now(),
     }
     upsert(conn, clinic_info, row, pk="id")
-    delete_children(conn, clinic_hours, "clinic_id", data["id"])
+
+    clinic_uuid = row["id"]
+    delete_children(conn, clinic_hours, "clinic_id", clinic_uuid)
     for h in to_list(data.get("hours")):
-        conn.execute(clinic_hours.insert().values(clinic_id=data["id"], day=h.get("day"), open_time=h.get("open"), close_time=h.get("close")))
-    delete_children(conn, clinic_languages, "clinic_id", data["id"])
+        conn.execute(clinic_hours.insert().values(clinic_id=clinic_uuid, day=h.get("day"), open_time=h.get("open"), close_time=h.get("close")))
+    delete_children(conn, clinic_languages, "clinic_id", clinic_uuid)
     for lang in to_list(data.get("languages")):
-        conn.execute(clinic_languages.insert().values(clinic_id=data["id"], language=lang))
+        conn.execute(clinic_languages.insert().values(clinic_id=clinic_uuid, language=lang))
 
     social = data.get("social_media") or {}
-    delete_children(conn, clinic_socials, "clinic_id", data["id"])
+    delete_children(conn, clinic_socials, "clinic_id", clinic_uuid)
     for platform, url in social.items():
-        if url: conn.execute(clinic_socials.insert().values(clinic_id=data["id"], platform=platform, url=url))
+        if url: conn.execute(clinic_socials.insert().values(clinic_id=clinic_uuid, platform=platform, url=url))
 
     # vector docs (EN/ZH cards and hours)
     social_line_en = ""

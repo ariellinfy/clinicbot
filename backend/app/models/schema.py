@@ -1,3 +1,4 @@
+# backend/app/models/schema.py
 from sqlalchemy import MetaData, Table, Column, String, Integer, ForeignKey, Text, TIMESTAMP, text as sa_text
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 

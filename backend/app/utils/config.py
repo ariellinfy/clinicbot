@@ -1,3 +1,4 @@
+# backend/app/utils/config.py
 import os
 
 # Core paths

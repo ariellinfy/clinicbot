@@ -1,7 +1,8 @@
+# backend/app/services/ingestion_modules/services.py
 from datetime import datetime
 from typing import Any, Dict
 
-from .utils import chroma_upsert, delete_children, to_list, upsert
+from .utils import chroma_upsert, delete_children, iso_now, to_list, to_uuid, upsert
 from ...models.schema import (services, service_specialties)
 
 def ingest_services(conn, payload: Dict[str, Any]):
@@ -9,16 +10,18 @@ def ingest_services(conn, payload: Dict[str, Any]):
     docs = []
     for s in items:
         row = {
-            "id": s["id"],
+            "id": to_uuid(s["id"], "service"),
             "name": s.get("name"),
             "subtitle": s.get("subtitle"),
             "subtitle_zh": s.get("subtitle_zh"),
-            "updatedAt": s.get("updatedAt") or datetime.utcnow().isoformat(),
+            "updatedAt": s.get("updatedAt") or iso_now(),
         }
         upsert(conn, services, row, pk="id")
-        delete_children(conn, service_specialties, "service_id", s["id"])
+        
+        service_uuid = row["id"]
+        delete_children(conn, service_specialties, "service_id", service_uuid)
         for spec in to_list(s.get("relatedSpecialties")):
-            conn.execute(service_specialties.insert().values(service_id=s["id"], specialty=spec))
+            conn.execute(service_specialties.insert().values(service_id=service_uuid, specialty=spec))
         text = "\\n".join([
             f"Service: {s.get('name')} ({s['id']})",
             f"Subtitle: {s.get('subtitle')}",
