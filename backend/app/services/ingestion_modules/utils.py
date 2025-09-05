@@ -1,7 +1,8 @@
 
 from typing import Any, Dict, Tuple, List
-from sqlalchemy import Table
+from sqlalchemy import Table, insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from ...utils.vectorstore import get_store
 
@@ -11,11 +12,21 @@ def to_list(v):
     return v if isinstance(v, list) else [v]
 
 def upsert(conn, table: Table, record: Dict[str, Any], pk: str = "id"):
-    stmt = sqlite_insert(table).values(**record)
-    update_cols = {c.name: stmt.excluded[c.name] for c in table.columns if c.name != pk}
-    stmt = stmt.on_conflict_do_update(index_elements=[pk], set_=update_cols)
-    conn.execute(stmt)
-
+    dialect = conn.dialect.name
+    if dialect == "sqlite":
+        stmt = sqlite_insert(table).values(**record)
+        update_cols = {c.name: stmt.excluded[c.name] for c in table.columns if c.name != pk}
+        stmt = stmt.on_conflict_do_update(index_elements=[pk], set_=update_cols)
+        conn.execute(stmt)
+    elif dialect == "postgresql":
+        stmt = pg_insert(table).values(**record)
+        update_cols = {c.name: stmt.excluded[c.name] for c in table.columns if c.name != pk}
+        stmt = stmt.on_conflict_do_update(index_elements=[pk], set_=update_cols)
+        conn.execute(stmt)
+    else:
+        # Fallback: try normal insert, or emulate with separate UPDATE+INSERT
+        conn.execute(insert(table).values(**record))
+            
 def delete_children(conn, table: Table, key_col: str, key_val: str):
     conn.execute(table.delete().where(getattr(table.c, key_col) == key_val))
 

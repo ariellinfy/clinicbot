@@ -11,7 +11,7 @@ from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 
 from ...models.types import IntentOut, RouteOutput
-from ...utils.config import LLM_MODEL, OPENAI_EMBED_MODEL, SQLITE_URL
+from ...utils.config import LLM_MODEL, OPENAI_EMBED_MODEL, SQL_DB_URL
 from ...utils.vectorstore import get_retriever, set_embedding_api_key
 from ...utils.rules import INTENT_PROMPT, SQL_PROMPT, ROUTER_PROMPT, GENERATION_PROMPT
 from ...utils.logging import get_logger
@@ -36,7 +36,7 @@ generation_chain = None
 generator_with_history: Optional[RunnableWithMessageHistory] = None
 
 # SQL DB (safe to init without key)
-db = SQLDatabase.from_uri(SQLITE_URL)
+db = SQLDatabase.from_uri(SQL_DB_URL)
 execute_sql = QuerySQLDatabaseTool(db=db)
 
 # Session store

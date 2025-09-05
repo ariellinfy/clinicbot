@@ -2,8 +2,10 @@ import os
 
 # Core paths
 DATA_DIR = os.getenv("DATA_DIR", "/app/data/json")
-CHROMA_DIR = os.getenv("CHROMA_DIR", "/app/data/chroma_db")
-SQLITE_URL = os.getenv("SQLITE_URL", "sqlite:////app/data/clinic.db")
+# CHROMA_DIR = os.getenv("CHROMA_DIR", "/app/data/chroma_db")
+# SQLITE_URL = os.getenv("SQLITE_URL", "sqlite:////app/data/clinic.db")
+SQL_DB_URL = os.getenv("SQL_DB_URL", "sqlite:////app/data/clinic.db")
+CHROMA_URL = os.getenv("CHROMA_URL", "/app/data/chroma_db")
 
 # Models
 LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4.1-nano-2025-04-14")

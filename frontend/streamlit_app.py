@@ -5,7 +5,7 @@ from datetime import datetime
 import markdown as md
 import streamlit as st
 
-API_BASE = os.getenv("API_BASE", "http://localhost:8000")
+API_BASE = os.getenv("API_BASE", "http://localhost:8080")
 
 # --- Page config ---
 st.set_page_config(page_title="TCM Clinic Chatbot", page_icon="🤖", layout="wide", initial_sidebar_state="expanded")

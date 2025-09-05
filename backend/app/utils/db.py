@@ -2,15 +2,16 @@ import os
 from urllib.parse import urlparse
 from sqlalchemy import create_engine, text as sql_text
 from sqlalchemy.engine import Engine
-from .config import SQLITE_URL, JANEAPP_BASE
+from .config import SQL_DB_URL, JANEAPP_BASE
 from ..models.schema import metadata
 
 def get_engine() -> Engine:
-    # ensure parent dir exists
-    if SQLITE_URL.startswith("sqlite:////"):
-        path = SQLITE_URL.replace("sqlite:////", "")
+    # SQL
+    if SQL_DB_URL.startswith("sqlite:////"):
+        path = SQL_DB_URL.replace("sqlite:////", "")
         os.makedirs(os.path.dirname(path), exist_ok=True)
-    return create_engine(SQLITE_URL, future=True)
+        return create_engine(SQL_DB_URL, future=True)
+    return create_engine(SQL_DB_URL, future=True, pool_pre_ping=True)
 
 def ensure_tables(engine: Engine):
     metadata.create_all(engine)
