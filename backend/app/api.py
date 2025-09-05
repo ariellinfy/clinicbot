@@ -77,8 +77,8 @@ def set_api_key(req: SetKeyReq):
     engine = get_engine()
     ensure_tables(engine)
     try:
-        ingest_directory(engine, DATA_DIR)
-        logger.info("Initial ingestion after API key set completed.")
+        count = ingest_directory(engine, DATA_DIR)
+        logger.info(f"Initial ingestion after API key set completed. Processed {count} files.")
     except Exception as e:
         # Not fatal for using the app; vector search may be partial.
         logger.error(f"Initial ingestion after API key set failed: {e}", exc_info=True)

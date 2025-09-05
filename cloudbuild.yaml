@@ -1,0 +1,44 @@
+# cloudbuild.yaml
+steps:
+# Build the FastAPI backend image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/api:latest', './backend']
+  id: 'Build Backend Image'
+
+# Push the backend image to Artifact Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/api:latest']
+  id: 'Push Backend Image'
+
+# Build the Streamlit frontend image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/web:latest', './frontend']
+  id: 'Build Frontend Image'
+
+# Push the frontend image to Artifact Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/web:latest']
+  id: 'Push Frontend Image'
+
+# Pull the public ChromaDB image and retag it for your private registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['pull', 'chromadb/chroma:latest']
+  id: 'Pull ChromaDB Image'
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', 'chromadb/chroma:latest', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/chroma:latest']
+  id: 'Tag ChromaDB Image'
+
+# Push the ChromaDB image to your private registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/chroma:latest']
+  id: 'Push ChromaDB Image'
+
+images:
+- '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/api:latest'
+- '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/web:latest'
+- '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/chroma:latest'
+
+substitutions:
+  _REGION: us-west1
+  _REPO_NAME: clinicbot-repo
