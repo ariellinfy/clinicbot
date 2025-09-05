@@ -3,7 +3,7 @@ steps:
 # Build the FastAPI backend image
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/api:latest', '-f', 'backend/Dockerfile', '.']
-
+  env: ['DOCKER_BUILDKIT=1']
   id: 'Build Backend Image'
 
 # Push the backend image to Artifact Registry
