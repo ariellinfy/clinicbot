@@ -23,7 +23,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv pip install --system -r /tmp/requirements.txt
 
 # Copy source code
-COPY backend/ ./
+COPY backend/ .
 COPY data/ ./data/
 
 # Expose port
