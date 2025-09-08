@@ -17,25 +17,19 @@ services:
       dockerfile: backend/Dockerfile
     env_file:
       - .env
-    environment:
-      DATA_DIR: /app/data/json
-      ALLOW_ORIGINS: "*"
-      JANEAPP_BASE: "https://demo.janeapp.com"
-      CHROMA_HOST: chroma
-      SQL_DB_URL: "postgresql://postgres.zwbytjknnthtwnsddqsx:gJPYFDGAwQPRb43s@aws-1-us-east-1.pooler.supabase.com:6543/postgres"
     depends_on:
       - chroma
-    volumes:
-      - ./data:/app/data
     ports:
       - "8080:8080"
-
+    volumes:
+      - ./data:/app/data
+    
   web:
     build:
       context: .
       dockerfile: frontend/Dockerfile
-    environment:
-      API_BASE: http://api:8080
+    env_file:
+      - .env
     depends_on:
       - api
     ports:
