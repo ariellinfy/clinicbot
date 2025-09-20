@@ -73,13 +73,4 @@ def set_api_key(req: SetKeyReq):
     if not ok:
         logger.warning("Invalid API key provided.")
         raise HTTPException(status_code=400, detail="Invalid API key")
-    # Now we can ingest (needs embeddings). Safe re-run.
-    engine = get_engine()
-    ensure_tables(engine)
-    try:
-        count = ingest_directory(engine, DATA_DIR)
-        logger.info(f"Initial ingestion after API key set completed. Processed {count} files.")
-    except Exception as e:
-        # Not fatal for using the app; vector search may be partial.
-        logger.error(f"Initial ingestion after API key set failed: {e}", exc_info=True)
     return {"ok": True}

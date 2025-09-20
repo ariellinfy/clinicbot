@@ -36,7 +36,7 @@ def _build_store() -> Chroma:
      # os.makedirs(CHROMA_DIR, exist_ok=True)
      
     # Connect to the remote Chroma client
-    # chroma_client = chromadb.HttpClient(host="http://your-chroma-server-ip:8000") # Replace with your server's IP/hostname and port
+    # chroma_client = chromadb.HttpClient(host="http://your-chroma-server-ip:8000") # Replace with server's IP/hostname and port
     chroma_client = chromadb.HttpClient(host=os.getenv("CHROMA_HOST"), port=8000)
 
     return Chroma(

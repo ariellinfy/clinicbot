@@ -19,9 +19,9 @@ With natural language queries, ClinicBot answers questions about services, prici
 - **Frontend:** [Streamlit](https://streamlit.io/)  
 - **Backend:** [FastAPI](https://fastapi.tiangolo.com/)  
 - **AI / Orchestration:** [LangChain](https://www.langchain.com/) + [OpenAI](https://openai.com/)
-- **Database:** local: [SQLite](https://sqlite.org/) | production: PostgreSQL
+- **Database:** local: [SQLite](https://sqlite.org/) | production: [Google Cloud SQL](https://cloud.google.com/sql?hl=en)
 - **Vector Store:** [Chroma](https://www.trychroma.com/)  
-- **Deployment:** [Docker](https://www.docker.com/) + [GCP](https://cloud.google.com/)
+- **Deployment:** [Docker](https://www.docker.com/) + [Google Cloud Run](https://cloud.google.com/run?hl=en)
 
 ## 🚀 Quick Start
 
